@@ -1,12 +1,14 @@
 # Importing the libraries
 from tkinter import *
 import tkinter as tk
+from tkinter import messagebox
 from tkinter import ttk
 import pickle
 
 # Class representing an Employee
 class Employee:
     def __init__(self, name, employeeId, department, jobTitle, basicSalary, managerId):
+        # Initialize a Employee object with its attributes
         self.name = name
         self.employeeId = employeeId
         self.department = department
@@ -16,17 +18,22 @@ class Employee:
         self.managedEmployees = []  # One-to-many relationship with Employee (manager managing employees)
         self.eventsManaged = []  # One-to-many relationship with Event (manager managing events)
 
+    # Add an employee to the list of employees
     def addManagedEmployee(self, employee):
         self.managedEmployees.append(employee)
 
+    # Add an event
     def addEventManaged(self, event):
         self.eventsManaged.append(event)
 
     def __str__(self):
+        # To display a string
         return f"{self.name} - {self.employeeId} - {self.department} - {self.jobTitle} - {self.basicSalary} - {self.managerId}"
 
+# Class representing an Client
 class Client:
     def __init__(self, clientId, name, address, contactDetails, budget):
+        # Initialize a Client object with its attributes
         self.clientId = clientId
         self.name = name
         self.address = address
@@ -34,16 +41,20 @@ class Client:
         self.budget = budget
         self.events = []  # One-to-many relationship with Event
 
+    # Add an event associated with this client
     def addEvent(self, event):
         self.events.append(event)
 
     def __str__(self):
+        # To display a string
         return f"{self.clientId} - {self.name} - {self.address} - {self.contactDetails} - {self.budget}"
 
+# Class representing an Event
 class Event:
     def __init__(self, eventId, eventType, theme, date, time, duration, venue, client, guestList,
                  cateringCompany, cleaningCompany, decorationsCompany, entertainmentCompany, furnitureSupplyCompany,
                  invoice):
+        # Initialize a Event object with its attributes
         self.eventId = eventId
         self.eventType = eventType
         self.theme = theme
@@ -61,10 +72,13 @@ class Event:
         self.invoice = invoice
 
     def __str__(self):
+        # To display a string
         return f"{self.eventId} - {self.eventType} - {self.theme} - {self.date} - {self.time} - {self.duration} - {self.venue} - {self.client} - {self.guestList} - {self.cateringCompany} - {self.cleaningCompany} - {self.decorationsCompany} - {self.entertainmentCompany} - {self.furnitureSupplyCompany} - {self.invoice}"
 
+# Class representing an Venue
 class Venue:
     def __init__(self, venueId, name, address, contact, minimumGuests, maximumGuests):
+        # Initialize a Venue object with its attributes
         self.venueId = venueId
         self.name = name
         self.address = address
@@ -74,13 +88,17 @@ class Venue:
         self.events = []  # One-to-many relationship with Event
 
     def addEvent(self, event):
+        # Add an event associated with this venue
         self.events.append(event)
 
     def __str__(self):
+        # To display a string
         return f"{self.venueId} - {self.name} - {self.address} - {self.contact} - {self.minimumGuests} - {self.maximumGuests}"
 
+# Class representing an Caterer
 class Caterer:
     def __init__(self, catererId, name, address, contactDetails, menu= None, minimumGuests= None, maximumGuests= None):
+        # Initialize a Caterer object with its attributes
         self.catererId = catererId
         self.name = name
         self.address = address
@@ -94,10 +112,13 @@ class Caterer:
         self.event = event
 
     def __str__(self):
+        # To display a string
         return f"{self.catererId} - {self.name} - {self.address} - {self.contactDetails} - {self.menu} - {self.minimumGuests} - {self.maximumGuests}"
 
+# Class representing an Guest
 class Guest:
     def __init__(self, guestId, name, address, contactDetails):
+        # Initialize a Guest object with its attributes
         self.guestId = guestId
         self.name = name
         self.address = address
@@ -105,13 +126,17 @@ class Guest:
         self.events = []  # Many-to-many relationship with Event
 
     def addEvent(self, event):
+        # Add an event associated with this guest
         self.events.append(event)
 
     def __str__(self):
+        # To display a string
         return f"{self.guestId} - {self.name} - {self.address} - {self.contactDetails}"
 
+# Class representing an Supplier
 class Supplier:
     def __init__(self, supplierId, name, address, contactDetails):
+        # Initialize a Supplier object with its attributes
         self.supplierId = supplierId
         self.name = name
         self.address = address
@@ -119,13 +144,17 @@ class Supplier:
         self.events = []  # Many-to-many relationship with Event
 
     def addEvent(self, event):
+        # Add an event associated with this supplier
         self.events.append(event)
 
     def __str__(self):
+        # To display a string
         return f"{self.supplierId} - {self.name} - {self.address} - {self.contactDetails}"
 
+# Class representing the Event Management System
 class EventManagementSystem:
     def __init__(self):
+        # Initialize an EventManagementSystem object with empty lists for storing data
         self.employees = []
         self.events = []
         self.clients = []
@@ -133,7 +162,7 @@ class EventManagementSystem:
         self.venues = []
         self.caterers = []
         self.suppliers = []
-
+    #  Load data from pickle files into respective lists.
     def loadData(self):
         try:
             with open('employees.pickle', 'rb') as f:
@@ -150,7 +179,7 @@ class EventManagementSystem:
                 self.caterers = pickle.load(f)
         except FileNotFoundError:
             pass
-
+    # Save data from lists into respective pickle files.
     def saveData(self):
         with open('employees.pickle', 'wb') as f:
             pickle.dump(self.employees, f)
@@ -165,6 +194,7 @@ class EventManagementSystem:
         with open('caterers.pickle', 'wb') as f:
             pickle.dump(self.caterers, f)
 
+    # Methods for managing employees
     def addEmployee(self, employee):
         self.employees.append(employee)
 
@@ -190,6 +220,7 @@ class EventManagementSystem:
         for employee in self.employees:
             print(employee)
 
+    # Methods for managing events
     def addEvent(self, event):
         self.events.append(event)
 
@@ -215,6 +246,7 @@ class EventManagementSystem:
         for event in self.events:
             print(event)
 
+    # Methods for managing clients
     def addClient(self, client):
         self.clients.append(client)
 
@@ -240,6 +272,7 @@ class EventManagementSystem:
         for client in self.clients:
             print(client)
 
+    # Methods for managing guests
     def addGuest(self, guest):
         self.guests.append(guest)
 
@@ -265,6 +298,7 @@ class EventManagementSystem:
         for guest in self.guests:
             print(guest)
 
+    # Methods for managing Venue
     def addVenue(self, venue):
         self.venues.append(venue)
 
@@ -290,6 +324,7 @@ class EventManagementSystem:
         for venue in self.venues:
             print(venue)
 
+    # Methods for managing caterer
     def addCaterer(self, caterer):
         self.caterers.append(caterer)
 
@@ -315,6 +350,7 @@ class EventManagementSystem:
         for caterer in self.caterers:
             print(caterer)
 
+    # Methods for managing supplier
     def addSupplier(self, supplier):
         # Add the supplier to the list
         self.suppliers.append(supplier)
@@ -347,17 +383,22 @@ class EventManagementSystem:
 
 
 class EventManagementSystemGUI(EventManagementSystem):
+    # Initialize the GUI by inheriting from the EventManagementSystem class
     def __init__(self, master):
         super().__init__()
         self.master = master
         master.title("Event Management System")
-        self.loadData()
+        self.loadData() # Load existing data when GUI starts
         self.notebook = ttk.Notebook(master)
         self.notebook.pack(fill=BOTH, expand=True)
+
+        # Create tabs
         self.employeeTab = ttk.Frame(self.notebook)
         self.notebook.add(self.employeeTab, text="Employees")
+        # Add Employee Section
         self.addEmployeeFrame = ttk.LabelFrame(self.employeeTab, text="Add Employee")
         self.addEmployeeFrame.grid(row=0, column=0, padx=10, pady=10)
+        # Add input fields for employee details.
         self.nameLabel = ttk.Label(self.addEmployeeFrame, text="Name:")
         self.nameLabel.grid(row=0, column=0, padx=5, pady=5)
         self.nameEntry = ttk.Entry(self.addEmployeeFrame)
@@ -384,6 +425,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.managerIdEntry.grid(row=5, column=1, padx=5, pady=5)
         self.addEmployeeButton = ttk.Button(self.addEmployeeFrame, text="Add Employee", command=self.addEmployeeHandler)
         self.addEmployeeButton.grid(row=6, column=0, columnspan=2, padx=5, pady=5)
+        # Delete Employee Section
         self.deleteEmployeeFrame = ttk.LabelFrame(self.employeeTab, text="Delete Employee")
         self.deleteEmployeeFrame.grid(row=0, column=1, padx=10, pady=10)
         self.deleteIdLabel = ttk.Label(self.deleteEmployeeFrame, text="Employee ID:")
@@ -392,6 +434,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.deleteIdEntry.grid(row=0, column=1, padx=5, pady=5)
         self.deleteEmployeeButton = ttk.Button(self.deleteEmployeeFrame, text="Delete Employee", command=self.deleteEmployeeHandler)
         self.deleteEmployeeButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+        # Modify Employee Section
         self.modifyEmployeeFrame = ttk.LabelFrame(self.employeeTab, text="Modify Employee")
         self.modifyEmployeeFrame.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
         self.modifyIdLabel = ttk.Label(self.modifyEmployeeFrame, text="Employee ID:")
@@ -420,6 +463,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.modifyManagerIdEntry.grid(row=5, column=1, padx=5, pady=5)
         self.modifyEmployeeButton = ttk.Button(self.modifyEmployeeFrame, text="Modify Employee", command=self.modifyEmployeeHandler)
         self.modifyEmployeeButton.grid(row=6, column=0, columnspan=2, padx=5, pady=5)
+        # Display Employee Section
         self.displayEmployeeFrame = ttk.LabelFrame(self.employeeTab, text="Display Employee")
         self.displayEmployeeFrame.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
         self.displayIdLabel = ttk.Label(self.displayEmployeeFrame, text="Employee ID:")
@@ -428,14 +472,19 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.displayIdEntry.grid(row=0, column=1, padx=5, pady=5)
         self.displayEmployeeButton = ttk.Button(self.displayEmployeeFrame, text="Display Employee", command=self.displayEmployeeHandler)
         self.displayEmployeeButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+        # Display All Employees Section
         self.displayAllEmployeesFrame = ttk.LabelFrame(self.employeeTab, text="Display All Employees")
         self.displayAllEmployeesFrame.grid(row=2, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
         self.displayAllEmployeesButton = ttk.Button(self.displayAllEmployeesFrame, text="Display All Employees", command=self.displayAllEmployeesHandler)
         self.displayAllEmployeesButton.grid(row=0, column=0, padx=5, pady=5)
+
+        # Event Tab
         self.eventTab = ttk.Frame(self.notebook)
         self.notebook.add(self.eventTab, text="Events")
+        # Add Event Section
         self.addEventFrame = ttk.LabelFrame(self.eventTab, text="Add Event")
         self.addEventFrame.grid(row=0, column=0, padx=10, pady=10)
+        # Add input fields for event details.
         self.eventIdLabel = ttk.Label(self.addEventFrame, text="Event ID:")
         self.eventIdLabel.grid(row=0, column=0, padx=5, pady=5)
         self.eventIdEntry = ttk.Entry(self.addEventFrame)
@@ -472,8 +521,10 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.guestListLabel.grid(row=8, column=0, padx=5, pady=5)
         self.guestListEntry = ttk.Entry(self.addEventFrame)
         self.guestListEntry.grid(row=8, column=1, padx=5, pady=5)
+        # Add Event Section
         self.addEventButton = ttk.Button(self.addEventFrame, text="Add Event", command=self.addEventHandler)
         self.addEventButton.grid(row=9, column=0, columnspan=2, padx=5, pady=5)
+        # Delete Event Section
         self.deleteEventFrame = ttk.LabelFrame(self.eventTab, text="Delete Event")
         self.deleteEventFrame.grid(row=0, column=1, padx=10, pady=10)
         self.deleteEventIdLabel = ttk.Label(self.deleteEventFrame, text="Event ID:")
@@ -481,12 +532,15 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.deleteEventIdEntry = ttk.Entry(self.deleteEventFrame)
         self.deleteEventIdEntry.grid(row=0, column=1, padx=5, pady=5)
         self.deleteEventButton = ttk.Button(self.deleteEventFrame, text="Delete Event", command=self.deleteEventHandler)
-
         self.deleteEventButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+
+        # Client Tab
         self.clientTab = ttk.Frame(self.notebook)
         self.notebook.add(self.clientTab, text="Clients")
+        # Add Client Section
         self.addClientFrame = ttk.LabelFrame(self.clientTab, text="Add Client")
         self.addClientFrame.grid(row=0, column=0, padx=10, pady=10)
+        # Input fields for adding a new client.
         self.clientNameLabel = ttk.Label(self.addClientFrame, text="Name:")
         self.clientNameLabel.grid(row=0, column=0, padx=5, pady=5)
         self.clientNameEntry = ttk.Entry(self.addClientFrame)
@@ -509,6 +563,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.clientBudgetEntry.grid(row=4, column=1, padx=5, pady=5)
         self.addClientButton = ttk.Button(self.addClientFrame, text="Add Client", command=self.addClientHandler)
         self.addClientButton.grid(row=5, column=0, columnspan=2, padx=5, pady=5)
+        # Delete Client Section
         self.deleteClientFrame = ttk.LabelFrame(self.clientTab, text="Delete Client")
         self.deleteClientFrame.grid(row=0, column=1, padx=10, pady=10)
         self.deleteClientIdLabel = ttk.Label(self.deleteClientFrame, text="Client ID:")
@@ -518,6 +573,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.deleteClientButton = ttk.Button(self.deleteClientFrame, text="Delete Client",
                                              command=self.deleteClientHandler)
         self.deleteClientButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+        # Modify Client Section
         self.modifyClientFrame = ttk.LabelFrame(self.clientTab, text="Modify Client")
         self.modifyClientFrame.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
         self.modifyClientIdLabel = ttk.Label(self.modifyClientFrame, text="Client ID:")
@@ -543,6 +599,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.modifyClientButton = ttk.Button(self.modifyClientFrame, text="Modify Client",
                                              command=self.modifyClientHandler)
         self.modifyClientButton.grid(row=5, column=0, columnspan=2, padx=5, pady=5)
+        # Display Client Section
         self.displayClientFrame = ttk.LabelFrame(self.clientTab, text="Display Client")
         self.displayClientFrame.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
         self.displayClientIdLabel = ttk.Label(self.displayClientFrame, text="Client ID:")
@@ -552,11 +609,13 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.displayClientButton = ttk.Button(self.displayClientFrame, text="Display Client",
                                               command=self.displayClientHandler)
         self.displayClientButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+        # Display All Clients Section
         self.displayAllClientsFrame = ttk.LabelFrame(self.clientTab, text="Display All Clients")
         self.displayAllClientsFrame.grid(row=2, column=1, padx=10, pady=10, sticky="ew")
         self.displayAllClientsButton = ttk.Button(self.displayAllClientsFrame, text="Display All Clients",
                                                   command=self.displayAllClientsHandler)
         self.displayAllClientsButton.grid(row=0, column=0, padx=5, pady=5)
+
         self.modifyEventFrame = ttk.LabelFrame(self.eventTab, text="Modify Event")
         self.modifyEventFrame.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
         self.modifyEventIdLabel = ttk.Label(self.modifyEventFrame, text="Event ID:")
@@ -564,7 +623,6 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.modifyEventIdEntry = ttk.Entry(self.modifyEventFrame)
         self.modifyEventIdEntry.grid(row=0, column=1, padx=5, pady=5)
         self.modifyEventButton = ttk.Button(self.modifyEventFrame, text="Modify Event", command=self.modifyEventHandler)
-
         self.modifyEventButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
         self.displayEventFrame = ttk.LabelFrame(self.eventTab, text="Display Event")
         self.displayEventFrame.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
@@ -580,11 +638,14 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.displayAllEventsButton = ttk.Button(self.displayAllEventsFrame, text="Display All Events",
                                                  command=self.displayAllEventsHandler)
         self.displayAllEventsButton.grid(row=0, column=0, padx=5, pady=5)
+
+        # Supplier Tab
         self.supplierTab = ttk.Frame(self.notebook)
         self.notebook.add(self.supplierTab, text="Supplier")
-
+        # Add Supplier Section
         self.addSupplierFrame = ttk.LabelFrame(self.supplierTab, text="Add Supplier")
         self.addSupplierFrame.grid(row=1, column=2, padx=10, pady=10)
+        #  Input fields for adding a new supplier
         self.supplierIdLabel = ttk.Label(self.addSupplierFrame, text="Supplier ID:")
         self.supplierIdLabel.grid(row=0, column=0, padx=5, pady=5)
         self.supplierIdEntry = ttk.Entry(self.addSupplierFrame)
@@ -604,7 +665,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.addSupplierButton = ttk.Button(self.addSupplierFrame, text="Add Supplier",
                                             command=self.addSupplierHandler)
         self.addSupplierButton.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
-
+        # # Delete Supplier Section
         self.deleteSupplierFrame = ttk.LabelFrame(self.supplierTab, text="Delete Supplier")
         self.deleteSupplierFrame.grid(row=2, column=2, padx=10, pady=10)
         self.deleteSupplierIdLabel = ttk.Label(self.deleteSupplierFrame, text="Supplier ID:")
@@ -614,7 +675,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.deleteSupplierButton = ttk.Button(self.deleteSupplierFrame, text="Delete Supplier",
                                                command=self.deleteSupplierHandler)
         self.deleteSupplierButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-
+        # Modify Supplier Section
         self.modifySupplierFrame = ttk.LabelFrame(self.supplierTab, text="Modify Supplier")
         self.modifySupplierFrame.grid(row=2, column=3, padx=10, pady=10)
         self.modifySupplierIdLabel = ttk.Label(self.modifySupplierFrame, text="Supplier ID:")
@@ -636,7 +697,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.modifySupplierButton = ttk.Button(self.modifySupplierFrame, text="Modify Supplier",
                                                command=self.modifySupplierHandler)
         self.modifySupplierButton.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
-
+        # Display Supplier Section
         self.displaySupplierFrame = ttk.LabelFrame(self.supplierTab, text="Display Supplier")
         self.displaySupplierFrame.grid(row=3, column=2, padx=10, pady=10)
         self.displaySupplierIdLabel = ttk.Label(self.displaySupplierFrame, text="Supplier ID:")
@@ -646,16 +707,19 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.displaySupplierButton = ttk.Button(self.displaySupplierFrame, text="Display Supplier",
                                                 command=self.displaySupplierHandler)
         self.displaySupplierButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-
+        # Display All Suppliers Section
         self.displayAllSuppliersButton = ttk.Button(self.supplierTab, text="Display All Suppliers",
                                                     command=self.displayAllSuppliersHandler)
         self.displayAllSuppliersButton.grid(row=4, column=2, columnspan=2, padx=5, pady=5)
 
+        # Guests Tab
         self.guestsTab = ttk.Frame(self.notebook)
         self.notebook.add(self.guestsTab, text="Guests")
 
+        # Add Guest Section
         self.addGuestFrame = ttk.LabelFrame(self.guestsTab, text="Add Guest")
         self.addGuestFrame.grid(row=1, column=2, padx=10, pady=10)
+        # Input fields for adding a new guest.
         self.guestIdLabel = ttk.Label(self.addGuestFrame, text="Guest ID:")
         self.guestIdLabel.grid(row=0, column=0, padx=5, pady=5)
         self.guestIdEntry = ttk.Entry(self.addGuestFrame)
@@ -675,7 +739,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.addGuestButton = ttk.Button(self.addGuestFrame, text="Add Guest",
                                          command=self.addGuestHandler)
         self.addGuestButton.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
-
+        # Delete Guest Section
         self.deleteGuestFrame = ttk.LabelFrame(self.guestsTab, text="Delete Guest")
         self.deleteGuestFrame.grid(row=2, column=2, padx=10, pady=10)
         self.deleteGuestIdLabel = ttk.Label(self.deleteGuestFrame, text="Guest ID:")
@@ -685,6 +749,8 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.deleteGuestButton = ttk.Button(self.deleteGuestFrame, text="Delete Guest",
                                             command=self.deleteGuestHandler)
         self.deleteGuestButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+
+        # Modify Guest Section
         self.modifyGuestFrame = ttk.LabelFrame(self.guestsTab, text="Modify Guest")
         self.modifyGuestFrame.grid(row=2, column=3, padx=10, pady=10)
         self.modifyGuestIdLabel = ttk.Label(self.modifyGuestFrame, text="Guest ID:")
@@ -706,7 +772,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.modifyGuestButton = ttk.Button(self.modifyGuestFrame, text="Modify Guest",
                                             command=self.modifyGuestHandler)
         self.modifyGuestButton.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
-
+        # Display Guest Section
         self.displayGuestFrame = ttk.LabelFrame(self.guestsTab, text="Display Guest")
         self.displayGuestFrame.grid(row=3, column=2, padx=10, pady=10)
         self.displayGuestIdLabel = ttk.Label(self.displayGuestFrame, text="Guest ID:")
@@ -716,14 +782,14 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.displayGuestButton = ttk.Button(self.displayGuestFrame, text="Display Guest",
                                              command=self.displayGuestHandler)
         self.displayGuestButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-
+        # Display All Guests Section
         self.displayAllGuestsButton = ttk.Button(self.guestsTab, text="Display All Guests",
                                                  command=self.displayAllGuestsHandler)
         self.displayAllGuestsButton.grid(row=4, column=2, columnspan=2, padx=5, pady=5)
-
+        # Caterers Tab
         self.caterersTab = ttk.Frame(self.notebook)
         self.notebook.add(self.caterersTab, text="Caterers")
-
+        # Add Caterer Section
         self.addCatererFrame = ttk.LabelFrame(self.caterersTab, text="Add Caterer")
         self.addCatererFrame.grid(row=1, column=2, padx=10, pady=10)
         self.catererIdLabel = ttk.Label(self.addCatererFrame, text="Caterer ID:")
@@ -745,7 +811,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.addCatererButton = ttk.Button(self.addCatererFrame, text="Add Caterer",
                                            command=self.addCatererHandler)
         self.addCatererButton.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
-
+        # Delete Caterer Section
         self.deleteCatererFrame = ttk.LabelFrame(self.caterersTab, text="Delete Caterer")
         self.deleteCatererFrame.grid(row=2, column=2, padx=10, pady=10)
         self.deleteCatererIdLabel = ttk.Label(self.deleteCatererFrame, text="Caterer ID:")
@@ -755,7 +821,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.deleteCatererButton = ttk.Button(self.deleteCatererFrame, text="Delete Caterer",
                                               command=self.deleteCatererHandler)
         self.deleteCatererButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-
+        # Modify Caterer Section
         self.modifyCatererFrame = ttk.LabelFrame(self.caterersTab, text="Modify Caterer")
         self.modifyCatererFrame.grid(row=2, column=3, padx=10, pady=10)
         self.modifyCatererIdLabel = ttk.Label(self.modifyCatererFrame, text="Caterer ID:")
@@ -777,7 +843,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.modifyCatererButton = ttk.Button(self.modifyCatererFrame, text="Modify Caterer",
                                               command=self.modifyCatererHandler)
         self.modifyCatererButton.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
-
+        # Display Caterer Section
         self.displayCatererFrame = ttk.LabelFrame(self.caterersTab, text="Display Caterer")
         self.displayCatererFrame.grid(row=3, column=2, padx=10, pady=10)
         self.displayCatererIdLabel = ttk.Label(self.displayCatererFrame, text="Caterer ID:")
@@ -787,10 +853,14 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.displayCatererButton = ttk.Button(self.displayCatererFrame, text="Display Caterer",
                                                command=self.displayCatererHandler)
         self.displayCatererButton.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
-
+        # Display All Caterers Section
         self.displayAllCaterersButton = ttk.Button(self.caterersTab, text="Display All Caterers",
                                                    command=self.displayAllCaterersHandler)
         self.displayAllCaterersButton.grid(row=4, column=2, columnspan=2, padx=5, pady=5)
+
+    # Define a method to display an error message using a message box
+    def displayErrorMessage(self, message):
+        messagebox.showerror("Sorry, There is an error in the given input.", message)
 
     def addEmployeeHandler(self):
         name = self.nameEntry.get()
@@ -1011,6 +1081,18 @@ class EventManagementSystemGUI(EventManagementSystem):
 
     def deleteCatererHandler(self):
         catererId = self.deleteCatererIdEntry.get()
+
+        # Check if catererId is empty, contains only spaces, or contains non-digit characters
+        if catererId == "" or catererId.isspace() or not catererId.isdigit():
+            self.displayErrorMessage("INVALID CATERER ID! Caterer ID cannot be empty or contain non-digit characters.")
+            return
+
+        # Check if catererId exists in the list of caterers
+        if catererId not in [caterer.catererId for caterer in self.caterers]:
+            self.displayErrorMessage("Caterer with ID {} does not exist.".format(catererId))
+            return
+
+        # If all checks pass, delete the caterer
         self.deleteCaterer(catererId)
 
     def modifyCatererHandler(self):
@@ -1018,11 +1100,46 @@ class EventManagementSystemGUI(EventManagementSystem):
         name = self.modifyCatererNameEntry.get()
         cuisine = self.modifyCatererCuisineEntry.get()
         contact = self.modifyCatererContactEntry.get()
+
+        # Check if catererId is empty, contains only spaces, or contains non-digit characters
+        if catererId == "" or catererId.isspace() or not catererId.isdigit():
+            self.displayErrorMessage("INVALID CATERER ID! Caterer ID cannot be empty or contain non-digit characters.")
+            return
+
+        # Check if catererId exists in the list of caterers
+        if catererId not in [caterer.catererId for caterer in self.caterers]:
+            self.displayErrorMessage("Caterer with ID {} does not exist.".format(catererId))
+            return
+
+        # Check if name, cuisine, and contact are empty or contain only spaces
+        if name == "" or name.isspace():
+            self.displayErrorMessage("Name cannot be empty.")
+            return
+        if cuisine == "" or cuisine.isspace():
+            self.displayErrorMessage("Cuisine cannot be empty.")
+            return
+        if contact == "" or contact.isspace():
+            self.displayErrorMessage("Contact cannot be empty.")
+            return
+
+        # If all checks pass, create new Caterer object and modify the caterer
         newCaterer = Caterer(catererId, name, cuisine, contact)
         self.modifyCaterer(catererId, newCaterer)
 
     def displayCatererHandler(self):
         catererId = self.displayCatererIdEntry.get()
+
+        # Check if catererId is empty, contains only spaces, or contains non-digit characters
+        if catererId == "" or catererId.isspace() or not catererId.isdigit():
+            self.displayErrorMessage("INVALID CATERER ID! Caterer ID cannot be empty or contain non-digit characters.")
+            return
+
+        # Check if catererId exists in the list of caterers
+        if catererId not in [caterer.catererId for caterer in self.caterers]:
+            self.displayErrorMessage("Caterer with ID {} does not exist.".format(catererId))
+            return
+
+        # If all checks pass, display the caterer
         self.displayCaterer(catererId)
 
     def displayAllCaterersHandler(self):
@@ -1036,3 +1153,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
