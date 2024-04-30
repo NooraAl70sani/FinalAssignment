@@ -863,31 +863,44 @@ class EventManagementSystemGUI(EventManagementSystem):
         messagebox.showerror("Sorry, There is an error in the given input.", message)
 
     def addEmployeeHandler(self):
+        # Retrieve input values from entry fields
         name = self.nameEntry.get()
         employeeId = self.idEntry.get()
         department = self.departmentEntry.get()
         jobTitle = self.jobTitleEntry.get()
         basicSalary = self.salaryEntry.get()
         managerId = self.managerIdEntry.get()
+        # Create an Employee object with the retrieved values
         employee = Employee(name, employeeId, department, jobTitle, basicSalary, managerId)
+        # Call the method to add the new employee
         self.addEmployee(employee)
+        # Clear all entry
         self.clearEmployeeEntries()
 
+    # Define a method to handle deleting an employee
     def deleteEmployeeHandler(self):
+        # Retrieve the employee ID
         employeeId = self.deleteIdEntry.get()
+        # Call the method to delete the employee with the given ID
         self.deleteEmployee(employeeId)
+        # Clear the entry field for employee ID
         self.deleteIdEntry.delete(0, END)
 
+    # Define a method to handle modifying an employee's details
     def modifyEmployeeHandler(self):
+        # Retrieve the employee ID
         employeeId = self.modifyIdEntry.get()
         newName = self.modifyNameEntry.get()
         newDepartment = self.modifyDepartmentEntry.get()
         newJobTitle = self.modifyJobTitleEntry.get()
         newBasicSalary = self.modifySalaryEntry.get()
         newManagerId = self.modifyManagerIdEntry.get()
+        # Create a new Employee object with the updated details
         newEmployee = Employee(newName, employeeId, newDepartment, newJobTitle, newBasicSalary,
                                newManagerId)
+        # Call the method to modify the employee's details
         self.modifyEmployee(employeeId, newEmployee)
+        # Clear all entry fields related to modifying employee details
         self.clearModifyEmployeeEntries()
 
     def displayEmployeeHandler(self):
@@ -895,9 +908,11 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.displayEmployee(employeeId)
         self.displayIdEntry.delete(0, END)
 
+    # Define a method to handle displaying an employee's details
     def displayAllEmployeesHandler(self):
         self.displayAllEmployees()
 
+    # Define a method to clear all entry fields related to employee details
     def clearEmployeeEntries(self):
         self.nameEntry.delete(0, END)
         self.idEntry.delete(0, END)
@@ -917,7 +932,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.venueAddressEntry.delete(0, tk.END)
         self.clientIdEntry.delete(0, tk.END)
         self.guestListEntry.delete(0, tk.END)
-
+    #Define a method to clear all entry fields related to modifying employee
     def clearModifyEmployeeEntries(self):
         self.modifyIdEntry.delete(0, END)
         self.modifyNameEntry.delete(0, END)
@@ -926,8 +941,9 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.modifySalaryEntry.delete(0, END)
         self.modifyManagerIdEntry.delete(0, END)
 
-
+    # Define a method to handle adding a new event
     def addEventHandler(self):
+        # Retrieve input values from entry fields
         eventId = self.eventIdEntry.get()
         eventType = self.eventTypeEntry.get()
         theme = self.themeEntry.get()
@@ -937,18 +953,26 @@ class EventManagementSystemGUI(EventManagementSystem):
         venueAddress = self.venueAddressEntry.get()
         clientId = self.clientIdEntry.get()
         guestList = self.guestListEntry.get()
+        # Create an Event object with the retrieved values
         event = Event(eventId, eventType, theme, date, time, duration, venueAddress, clientId, guestList, None,
                       None, None, None, None, None)
-
+        # Call the method to add the new event
         self.addEvent(event)
+        # Clear all entry fields related to event details
         self.clearEventEntries()
 
+    # Define a method to handle
     def deleteEventHandler(self):
+        # Retrieve the event ID
         eventId = self.deleteEventIdEntry.get()
+        # Call the method to delete the event
         self.deleteEvent(eventId)
+        # Clear the entry field for event ID
         self.deleteEventIdEntry.delete(0, END)
 
+    # Define a method to handle adding a new client
     def addClientHandler(self):
+        # Retrieve input values from entry fields
         name = self.clientNameEntry.get()
         clientId = self.clientIdEntry.get()
         address = self.clientAddressEntry.get()
@@ -960,11 +984,16 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.addClient(client)
         self.clearClientEntries()
 
+    # Define a method to handle deleting a client
     def deleteClientHandler(self):
+        # Retrieve the client ID
         clientId = self.deleteClientIdEntry.get()
+        # Call the method to delete
         self.deleteClient(clientId)
+        # Clear the entry field for client ID
         self.deleteClientIdEntry.delete(0, END)
 
+    # Define a method to clear all entry fields related to client details
     def clearClientEntries(self):
         self.clientNameEntry.delete(0, END)
         self.clientIdEntry.delete(0, END)
@@ -981,42 +1010,51 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.modifyClientBudgetEntry.delete(0, tk.END)
 
     def modifyClientHandler(self):
+        # Retrieve the client ID and new details from entry fields
         clientId = self.modifyClientIdEntry.get()
         newName = self.modifyClientNameEntry.get()
         newAddress = self.modifyClientAddressEntry.get()
         newContactDetails = self.modifyClientContactEntry.get()
         newBudget = self.modifyClientBudgetEntry.get()
+        # Create a new Client object with the updated details
         newClient = Client(clientId, newName, newAddress, newContactDetails, newBudget)
         self.modifyClient(clientId, newClient)
         self.clearModifyClientEntries()
 
+    # Define a method to handle displaying a client's details
     def displayClientHandler(self):
         clientId = self.displayClientIdEntry.get()
         self.displayClient(clientId)
+        # Clear the entry field for client ID
         self.displayClientIdEntry.delete(0, END)
 
+    # Define a method to handle displaying details of all clients
     def displayAllClientsHandler(self):
         self.displayAllClients()
 
+    # Define a method to clear entry fields related to modifying event details
     def clearModifyEventEntries(self):
         # Clear the entry fields related to modifying event details
         self.modifyEventIdEntry.delete(0, tk.END)
 
+    # Define a method to handle modifying an event
     def modifyEventHandler(self):
         eventId = self.modifyEventIdEntry.get()
         newEvent = Event(...)
         self.modifyEvent(eventId, newEvent)
         self.clearModifyEventEntries()
 
+    # Define a method to handle displaying details of an event
     def displayEventHandler(self):
         eventId = self.displayEventIdEntry.get()
         self.displayEvent(eventId)
         self.displayEventIdEntry.delete(0, END)
 
+    # Define a method to handle displaying details of all events
     def displayAllEventsHandler(self):
         self.displayAllEvents()
 
-
+    # Define methods to handle adding, deleting, modifying, and displaying suppliers, guests, and caterers
     def addSupplierHandler(self):
         supplierId = self.supplierIdEntry.get()
         name = self.supplierNameEntry.get()
@@ -1146,6 +1184,7 @@ class EventManagementSystemGUI(EventManagementSystem):
         self.displayAllCaterers()
 
 
+#The main() function initializes the GUI application and starts the event loop
 def main():
     root = Tk()
     app = EventManagementSystemGUI(root)
@@ -1153,4 +1192,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
