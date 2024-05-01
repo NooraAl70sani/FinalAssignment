@@ -181,7 +181,7 @@ class EventManagementSystem:
             pass
     # Save data from lists into respective pickle files.
     def saveData(self):
-        with open('employees.pickle', 'wb') as f:
+        with open("employees.pickle", 'wb') as f:
             pickle.dump(self.employees, f)
         with open('events.pickle', 'wb') as f:
             pickle.dump(self.events, f)
